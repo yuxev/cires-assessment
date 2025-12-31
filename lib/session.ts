@@ -30,15 +30,13 @@ export async function DeleteSession() {
 	const cookieStore = await cookies();
 
 	cookieStore.delete(SESSION_COOKIE_NAME);
-	// some cool stuff can go here later
 	redirect('/login');
 }
 
 // Verifies if a user is logged in; if not, redirects to login
 export async function verifySession() {
 	const user = await getUser();
-	if (!user) {
+	if (!user)
 		redirect('/login');
-	}
 	return user;
 }

@@ -12,8 +12,7 @@ let db: Level<string, string>;
 if (!global.__db_instance) {
   db = new Level<string, string>(DB_PATH, { valueEncoding: "json" });
   global.__db_instance = db;
-} else {
+} else
   db = global.__db_instance;
-}
 
 export { db };
