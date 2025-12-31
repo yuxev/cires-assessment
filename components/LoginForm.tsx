@@ -24,17 +24,17 @@ export default function LoginForm() {
           </div>
         )}
         
-        {/* Email Field */}
+        {/* username Field */}
         <div className="flex flex-col gap-2">
           <label htmlFor="username" className="text-sm font-medium text-gray-700">
-            Email
+            Username
           </label>
           <input 
             name="username" 
             type="username"
             required 
             className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-transparent transition" 
-            placeholder="Enter your email"
+            placeholder="Enter your username"
           />
         </div>
 
