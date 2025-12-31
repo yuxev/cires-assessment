@@ -1,8 +1,10 @@
 import { verifySession } from '@/lib/session';
 import PhotoGrid from '@/components/PhotoGrid';
+import { fetchUnsplashPhotos } from '../actions/gallery';
 
 export default async function GalleryPage() {
   const user = await verifySession();
+  const initialPhotos = await fetchUnsplashPhotos(1);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -46,7 +48,7 @@ export default async function GalleryPage() {
 
       {/* Main Content - YOU implement the logic here */}
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* <PhotoGrid /> */}
+        <PhotoGrid initialPhotos={initialPhotos} />
       </main>
     </div>
   );

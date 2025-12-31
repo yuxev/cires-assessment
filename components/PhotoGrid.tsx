@@ -4,14 +4,18 @@ import {useInView} from 'react-intersection-observer';
 import { useState, useEffect } from 'react';
 import { fetchUnsplashPhotos , UnsplashPhoto } from '@/app/actions/gallery';
 
-export default function PhotoGrid() {
+interface PhotoGridProps {
+  initialPhotos: UnsplashPhoto[];
+}
+
+export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
   // TODO: Add your state management here (photos, page, isLoading, hasMore)
   // TODO: Add useInView hook for infinite scroll
   // TODO: Add useEffect for loading more photos
   // TODO: Add loadMore function
 
-  // DUMMY DATA - Replace with your actual photos state
-   const photos: UnsplashPhoto[] =  [];
+
+  const [photos, setPhotos] = useState<UnsplashPhoto[]>(initialPhotos);
 
   return (
     <div>

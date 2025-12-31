@@ -23,7 +23,7 @@ export async function fetchUnsplashPhotos(page: number = 1, topic?: string): Pro
 	const url = topic 
     ? `https://api.unsplash.com/topics/${topic}/photos?page=${page}&per_page=12`
     : `https://api.unsplash.com/photos?page=${page}&per_page=12&order_by=latest`;
-
+	console.log("~~~~~~~~~~~~~~ " + url + " ~~~~~~~~~~~~~~")
 	try {
 		const response = await fetch(url, {
         headers: {
@@ -33,7 +33,9 @@ export async function fetchUnsplashPhotos(page: number = 1, topic?: string): Pro
       });
 	  if (!response.ok)
 		throw new Error(`Error fetching photos: ${response.statusText}`);
+
 	  const rawData = await response.json();
+
 	  const photo : UnsplashPhoto[] = rawData.map((photo : any) => ({
 		id: photo.id,
 		urls: {
