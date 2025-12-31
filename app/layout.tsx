@@ -13,8 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased bg-gray-50">
-        {/* 'children' is where your page.tsx content will be injected */}
+      <body className="antialiased">
         {children}
       </body>
     </html>
