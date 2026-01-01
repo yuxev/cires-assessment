@@ -1,6 +1,7 @@
 'use server'
 
 import { CreateSession } from '@/lib/session'
+import { DeleteSession } from '@/lib/session'
 import { redirect } from 'next/navigation'
 
 const MOCK_USERS: Record<string , { password: string , isBlocked: boolean }> = {
@@ -29,4 +30,13 @@ export async function loginAction(currentState: any, formData: FormData) {
 	await CreateSession(username);
 
 	redirect('/gallery');
+}
+
+export async function logoutAction(currentState: any) {
+	// simulate a network request
+	await new Promise((resolve) => setTimeout(resolve, 500));
+
+	await DeleteSession();
+
+	redirect('/login');
 }

@@ -1,4 +1,7 @@
 'use server';
+import { GetLikes, hasLiked } from '@/lib/db';
+import { getUser } from '@/lib/session';
+
 
 // 1. Define the Data Structure
 export interface UnsplashPhoto {
@@ -26,17 +29,17 @@ export async function fetchUnsplashPhotos(page: number = 1, topic?: string): Pro
 	// console.log("~~~~~~~~~~~~~~ " + url + " ~~~~~~~~~~~~~~")
 	try {
 		const response = await fetch(url, {
-        headers: {
-          Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
-        },
-        cache: 'no-store',
-      });
-	  if (!response.ok)
-		throw new Error(`Error fetching photos: ${response.statusText}`);
+			headers: {
+				Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
+			},
+			cache: 'no-store',
+		});
+		if (!response.ok)
+			throw new Error(`Error fetching photos: ${response.statusText}`);
+		
+		const rawData = await response.json();
 
-	  const rawData = await response.json();
-
-	  const photo : UnsplashPhoto[] = rawData.map((photo : any) => ({
+		const photo : UnsplashPhoto[] = rawData.map((photo : any) => ({
 		id: photo.id,
 		urls: {
 			small: photo.urls.small,
@@ -49,9 +52,20 @@ export async function fetchUnsplashPhotos(page: number = 1, topic?: string): Pro
 		},
 		width: photo.width,
 		height: photo.height,
-		likes: photo.likes,
+		likes: 0,
+		hasLiked: false,
 	  }));
-	  return photo;
+	  
+	const username: string = await getUser();
+	const photosWithLikes = await Promise.all(
+	photo.map(async (photo) => ({
+		...photo,
+		likes: await GetLikes(photo.id),
+		userLiked: await hasLiked(photo.id, username),
+	}))
+	);
+
+	return photosWithLikes;
 	}
 	catch (error) {
 		console.error('Error fetching Unsplash photos:', error);

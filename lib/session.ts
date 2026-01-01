@@ -18,11 +18,11 @@ export async function CreateSession(username:string) {
 }
 
 // Retrieves the username from the session cookie
-export async function getUser() {
+export async function getUser(): Promise<string> {
 	const cookieStore = await cookies();
 	const sessionCookie = cookieStore.get(SESSION_COOKIE_NAME);
 
-	return sessionCookie?.value || null;
+	return sessionCookie?.value || '';
 }
 
 // Deletes the session cookie and redirects to login

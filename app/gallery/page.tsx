@@ -1,11 +1,13 @@
 import { verifySession } from '@/lib/session';
 import PhotoGrid from '@/components/PhotoGrid';
 import { fetchUnsplashPhotos } from '../actions/gallery';
+import LogoutButton from '@/components/LogoutButton';
+
 
 export default async function GalleryPage() {
   const user = await verifySession();
   const initialPhotos = await fetchUnsplashPhotos(1);
-
+  
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -16,9 +18,7 @@ export default async function GalleryPage() {
               <h1 className="text-2xl font-bold text-gray-900">Gallery</h1>
               <p className="text-sm text-gray-500 mt-1">Welcome back, {user}</p>
             </div>
-            <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-              Logout
-            </button>
+            <LogoutButton />
           </div>
         </div>
       </header>
