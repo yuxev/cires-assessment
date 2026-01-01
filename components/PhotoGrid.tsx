@@ -30,7 +30,7 @@ export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
       if (newPhotos.length === 0)
         setHasMore(false);
       else {
-        setPhotos([...photos, ...newPhotos]);
+        setPhotos(prevPhotos => [...prevPhotos, ...newPhotos]);
         setPage(nextPage);
       }
     } catch (error) {
@@ -87,16 +87,15 @@ export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
         
       <div ref={ref} className="h-10" />
 
-      {/* TODO: Add your loading sentinel here with ref from useInView */}
-      {/* Loading Spinner - Uncomment when you add loading state */}
-      {/* {isLoading && (
+
+       {isLoading && (
         <div className="flex justify-center py-12">
           <div className="flex flex-col items-center gap-3">
             <div className="w-8 h-8 border-3 border-gray-300 border-t-gray-900 rounded-full animate-spin" />
             <p className="text-sm text-gray-500">Loading more photos...</p>
           </div>
         </div>
-      )} */}
+      )} 
 
       {/* Empty State - For when photos array is empty */}
       {photos.length === 0 && (
