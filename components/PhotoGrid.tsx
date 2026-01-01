@@ -1,7 +1,7 @@
 'use client'
 
 import {useInView} from 'react-intersection-observer';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { fetchUnsplashPhotos , UnsplashPhoto } from '@/app/actions/gallery';
 
 interface PhotoGridProps {
@@ -11,6 +11,34 @@ interface PhotoGridProps {
 export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
 
   const [photos, setPhotos] = useState<UnsplashPhoto[]>(initialPhotos);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (inView && !isLoading && hasMore)
+      LoadMorePhotos();
+  }, [inView, hasMore , isLoading]);
+  
+  const LoadMorePhotos = async () => {
+    setIsLoading(true);
+    try {
+      const nextPage = page + 1;
+      const newPhotos = await fetchUnsplashPhotos(nextPage);
+      
+      if (newPhotos.length === 0)
+        setHasMore(false);
+      else {
+        setPhotos([...photos, ...newPhotos]);
+        setPage(nextPage);
+      }
+    } catch (error) {
+      console.error('Error loading photos:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -56,6 +84,8 @@ export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
           </div>
         ))}
       </div>
+        
+      <div ref={ref} className="h-10" />
 
       {/* TODO: Add your loading sentinel here with ref from useInView */}
       {/* Loading Spinner - Uncomment when you add loading state */}
