@@ -9,11 +9,6 @@ interface PhotoGridProps {
 }
 
 export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
-  // TODO: Add your state management here (photos, page, isLoading, hasMore)
-  // TODO: Add useInView hook for infinite scroll
-  // TODO: Add useEffect for loading more photos
-  // TODO: Add loadMore function
-
 
   const [photos, setPhotos] = useState<UnsplashPhoto[]>(initialPhotos);
 

@@ -24,7 +24,7 @@ export async function loginAction(currentState: any, formData: FormData) {
 	if (userAccount.isBlocked)
 		return { success: false, message: 'Your account has been blocked. Please contact support.' };
 	if (password != userAccount.password)
-		return { success: false, message: 'Wrong password' };
+		return { success: false, message: 'Wrong password!' };
 
 	await CreateSession(username);
 

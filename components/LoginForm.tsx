@@ -1,6 +1,6 @@
 'use client';
 
-import { loginAction } from '@/app/actions/auth'
+import { loginAction } from '@/app/actions/auth';
 import { useActionState } from 'react';
 
 export default function LoginForm() {

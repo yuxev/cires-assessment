@@ -23,13 +23,13 @@ export async function fetchUnsplashPhotos(page: number = 1, topic?: string): Pro
 	const url = topic 
     ? `https://api.unsplash.com/topics/${topic}/photos?page=${page}&per_page=12`
     : `https://api.unsplash.com/photos?page=${page}&per_page=12&order_by=latest`;
-	console.log("~~~~~~~~~~~~~~ " + url + " ~~~~~~~~~~~~~~")
+	// console.log("~~~~~~~~~~~~~~ " + url + " ~~~~~~~~~~~~~~")
 	try {
 		const response = await fetch(url, {
         headers: {
           Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
         },
-        cache: 'no-store', // 
+        cache: 'no-store',
       });
 	  if (!response.ok)
 		throw new Error(`Error fetching photos: ${response.statusText}`);
