@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Fixes the "No native build found" error for LevelDB
+  serverExternalPackages: ["classic-level", "level"],
+
   experimental: {
     serverActions: {
       allowedOrigins: [
