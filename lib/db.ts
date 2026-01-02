@@ -17,17 +17,26 @@ if (!global.__db_instance) {
 
 export async function toggleLike(photoId: string, username: string) {
   try {
-    const existingLikes: string[] = JSON.parse(await db.get(photoId));
-    if (!existingLikes.includes(username))
+    let existingLikes: string[] = [];
+    
+    try {
+      existingLikes = JSON.parse(await db.get(photoId));
+    } catch {
+      existingLikes = [];
+    }
+    
+    if (!existingLikes.includes(username)) 
       existingLikes.push(username);
     else
       existingLikes.splice(existingLikes.indexOf(username), 1);
+  
     await db.put(photoId, JSON.stringify(existingLikes));
-  }
-  catch {
-    return;
+  } catch (error) {
+    console.error('Error toggling like:', error);
+    throw error;
   }
 };
+
 
 export async function GetLikes(photoId: string): Promise<number> {
   try {

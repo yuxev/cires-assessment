@@ -8,6 +8,8 @@ const MOCK_USERS: Record<string , { password: string , isBlocked: boolean }> = {
 	muser1: { password: 'mpassword1', isBlocked: false },
 	muser2: { password: 'mpassword2', isBlocked: false },
 	muser3: { password: 'mpassword3', isBlocked: true },
+	muser5: { password: 'mpassword5', isBlocked: false },
+	muser6: { password: 'mpassword6', isBlocked: false },
 };
 
 export async function loginAction(currentState: any, formData: FormData) {

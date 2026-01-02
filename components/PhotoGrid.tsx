@@ -1,5 +1,6 @@
 'use client'
 
+import LikeButton from './LikeButton';
 import {useInView} from 'react-intersection-observer';
 import { useState, useEffect, use } from 'react';
 import { fetchUnsplashPhotos , UnsplashPhoto } from '@/app/actions/gallery';
@@ -74,12 +75,11 @@ export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
                   {photo.user.name}
                 </span>
               </div>
-              <div className="flex items-center gap-1 text-gray-500 text-xs">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                <span>{photo.likes}</span>
-              </div>
+              <LikeButton
+                photoId={photo.id}
+                initialLikes={photo.likes}
+                initialUserLiked={photo.userLiked}
+              />
             </div>
           </div>
         ))}

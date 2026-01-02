@@ -18,6 +18,7 @@ export interface UnsplashPhoto {
   width: number;
   height: number;
   likes: number;
+  userLiked: boolean;
 }
 
 const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
