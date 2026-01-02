@@ -1,36 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Photo Gallery App
+
+A modern photo gallery application built with Next.js that allows users to browse and like photos from Unsplash.
+
+## Features
+
+- 🔐 **User Authentication** - Login system with mock users
+- 🖼️ **Photo Gallery** - Browse photos from Unsplash API
+- ♾️ **Infinite Scroll** - Automatically load more photos as you scroll
+- ❤️ **Like System** - Like/unlike photos with persistent storage
+- 📱 **Responsive Design** - Works on desktop and mobile
+- 🔒 **Protected Routes** - Only authenticated users can access the gallery
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Database:** LevelDB (for likes storage)
+- **API:** Unsplash API
+- **Authentication:** Session-based with cookies
+
+## Prerequisites
+
+- Node.js 18+ installed
+- npm or yarn package manager
+- Unsplash API Access Key
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the repository
+
+```bash
+git clone <your-repo-url>
+cd cires-assessment
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+UNSPLASH_ACCESS_KEY=your_unsplash_access_key_here
+```
+
+To get an Unsplash API key:
+1. Go to [Unsplash Developers](https://unsplash.com/developers)
+2. Create a new application
+3. Copy your Access Key
+
+### 4. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Test Accounts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Use these credentials to login:
 
-## Learn More
+| Username | Password | Status |
+|----------|----------|--------|
+| muser1 | mpassword1 | ✅ Active |
+| muser2 | mpassword2 | ✅ Active |
+| muser3 | mpassword3 | 🚫 Blocked |
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+├── app/
+│   ├── actions/          # Server actions
+│   │   ├── auth.ts       # Login/logout actions
+│   │   ├── gallery.ts    # Photo fetching
+│   │   └── likes.ts      # Like toggle action
+│   ├── gallery/          # Gallery page
+│   ├── login/            # Login page
+│   └── layout.tsx        # Root layout
+├── components/
+│   ├── LikeButton.tsx    # Like button component
+│   ├── LoginForm.tsx     # Login form
+│   ├── LogoutButton.tsx  # Logout button
+│   └── PhotoGrid.tsx     # Photo grid with infinite scroll
+├── lib/
+│   ├── db.ts             # LevelDB operations
+│   └── session.ts        # Session management
+├── middleware.ts         # Route protection
+└── likes_db/             # LevelDB storage (auto-created)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## How It Works
 
-## Deploy on Vercel
+### Authentication
+- Mock user database with username/password validation
+- Session stored in HTTP-only cookies
+- Middleware protects `/gallery` routes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Photo Likes System
+1. Photos are fetched from Unsplash API
+2. Like data is stored in LevelDB:
+   - Key: `photoId`
+   - Value: Array of usernames who liked
+3. Each photo shows:
+   - Total like count from database
+   - Red heart if current user liked it
+   - Gray heart if not liked
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Infinite Scroll
+- Initial 12 photos loaded on page load (server-side)
+- Intersection Observer detects when user scrolls to bottom
+- Automatically fetches next page from Unsplash
+- New photos appended to existing grid
+
+## Available Scripts
+
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm start        # Run production build
+npm run lint     # Run ESLint
+```
+
+## Notes
+
+- LevelDB stores data locally in the `likes_db` folder
+- Delete `likes_db` to reset all likes
+- Not suitable for Vercel deployment (LevelDB needs persistent filesystem)
+- For production, migrate to Vercel KV, PostgreSQL, or MongoDB
+
+## License
+
+MIT

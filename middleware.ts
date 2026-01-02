@@ -6,11 +6,9 @@ export async function middleware(request: NextRequest) {
   // 1. Check if user is visiting a protected route
   if (request.nextUrl.pathname.startsWith('/gallery')) {
     const user = await getUser();
-    
-    // 2. If no user found in cookies, kick them out
-    if (!user) {
+
+    if (!user)
       return NextResponse.redirect(new URL('/login', request.url));
-    }
   }
   
   return NextResponse.next();
