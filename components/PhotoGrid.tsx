@@ -41,6 +41,8 @@ export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
     }
   };
 
+
+  
   return (
     <div>
       {/* Photo Grid - Styled and ready for your photos */}
