@@ -30,18 +30,6 @@ export default async function GalleryPage() {
             <button className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg whitespace-nowrap">
               All
             </button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg whitespace-nowrap transition">
-              Nature
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg whitespace-nowrap transition">
-              Travel
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg whitespace-nowrap transition">
-              Architecture
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg whitespace-nowrap transition">
-              Food & Drink
-            </button>
           </div>
         </div>
       </div>

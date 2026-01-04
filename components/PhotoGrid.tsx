@@ -31,7 +31,12 @@ export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
       if (newPhotos.length === 0)
         setHasMore(false);
       else {
-        setPhotos(prevPhotos => [...prevPhotos, ...newPhotos]);
+        setPhotos(prevPhotos => {
+          const uniqueNew = newPhotos.filter(
+            np => !prevPhotos.some(p => p.id === np.id)
+          );
+          return [...prevPhotos, ...uniqueNew];
+        });
         setPage(nextPage);
       }
     } catch (error) {
@@ -43,32 +48,31 @@ export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
 
   return (
     <div>
-      {/* Photo Grid - Styled and ready for your photos */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {/* TODO: Map through your photos array here */}
+      {/* Pinterest-style masonry layout */}
+      <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6 px-4">
         {photos.map((photo: any) => (
           <div
             key={photo.id}
-            className="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+            className="break-inside-avoid group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
           >
-            {/* Image Container */}
-            <div className="relative w-full overflow-hidden bg-gray-100" style={{ aspectRatio: `${photo.width} / ${photo.height}` }}>
+            {/* Image Container - natural height */}
+            <div className="relative w-full overflow-hidden bg-gray-100">
               <img
                 src={photo.urls.small}
                 alt={photo.alt_description}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
               />
               
               {/* Overlay on hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                  <p className="font-medium text-sm">{photo.alt_description}</p>
+                <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
+                  <p className="font-medium text-sm line-clamp-2">{photo.alt_description}</p>
                 </div>
               </div>
             </div>
 
             {/* Info Bar */}
-            <div className="p-3 flex items-center justify-between">
+            <div className="p-3 flex items-center justify-between bg-white">
               <div className="flex items-center gap-2 min-w-0">
                 <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex-shrink-0" />
                 <span className="text-sm font-medium text-gray-900 truncate">
@@ -84,18 +88,17 @@ export default function PhotoGrid({ initialPhotos }: PhotoGridProps) {
           </div>
         ))}
       </div>
-        
-      <div ref={ref} className="h-10" />
-
-
-       {isLoading && (
-        <div className="flex justify-center py-12">
+      
+      {isLoading && (
+         <div className="flex justify-center py-12">
           <div className="flex flex-col items-center gap-3">
             <div className="w-8 h-8 border-3 border-gray-300 border-t-gray-900 rounded-full animate-spin" />
             <p className="text-sm text-gray-500">Loading more photos...</p>
           </div>
         </div>
-      )} 
+      )}
+
+      <div ref={ref} className="h-10" />
 
       {/* Empty State - For when photos array is empty */}
       {photos.length === 0 && (

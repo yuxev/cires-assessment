@@ -24,9 +24,7 @@ export interface UnsplashPhoto {
 const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
 export async function fetchUnsplashPhotos(page: number = 1, topic?: string): Promise<UnsplashPhoto[]> {
-	const url = topic 
-    ? `https://api.unsplash.com/topics/${topic}/photos?page=${page}&per_page=12`
-    : `https://api.unsplash.com/photos?page=${page}&per_page=12&order_by=latest`;
+	const url: string = `https://api.unsplash.com/photos?page=${page}&per_page=12&order_by=latest`;
 	// console.log("~~~~~~~~~~~~~~ " + url + " ~~~~~~~~~~~~~~")
 	try {
 		const response = await fetch(url, {
@@ -36,7 +34,7 @@ export async function fetchUnsplashPhotos(page: number = 1, topic?: string): Pro
 			cache: 'no-store',
 		});
 		if (!response.ok)
-			throw new Error(`Error fetching photos: ${response.statusText}`);
+			throw new Error(`Too many requests (50/hour free tier): ${response.statusText}`);
 		
 		const rawData = await response.json();
 
@@ -69,7 +67,7 @@ export async function fetchUnsplashPhotos(page: number = 1, topic?: string): Pro
 	return photosWithLikes;
 	}
 	catch (error) {
-		console.error('Error fetching Unsplash photos:', error);
+		console.error(error);
 	}
 	return [];
 }
