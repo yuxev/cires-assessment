@@ -124,7 +124,6 @@ Use these credentials to login:
 npm run dev      # Start development server
 npm run build    # Build for production
 npm start        # Run production build
-npm run lint     # Run ESLint
 ```
 
 ## Notes
